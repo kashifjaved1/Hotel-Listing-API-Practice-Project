@@ -16,4 +16,9 @@ namespace HotelListingAPI.Models
         public int Id { get; set; }
         public List<Hotel> Hotels { get; set; }
     }
+
+    public class UpdateCountryDTO : CreateCountryDTO
+    {
+        //
+    }
 }

@@ -16,9 +16,10 @@ namespace Practice
     {
         public static void Main(string[] args)
         {
+            // configured serilog below.
             Log.Logger = new LoggerConfiguration()
                 .WriteTo.File(
-                    path: "c:\\%userprofile%\\desktop\\logs\\log-.txt",
+                    path: "c:\\serilog\\log-.txt",
                     outputTemplate: "{Timestamp: yyyy-MM-dd HH:mm:ss.fff zzz} [{Level: u3}] {Message: lj}{NewLine}{Exception}",
                     rollingInterval: RollingInterval.Day,
                     restrictedToMinimumLevel: LogEventLevel.Information
@@ -29,7 +30,7 @@ namespace Practice
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .UseSerilog()
+                .UseSerilog() // set serilog as default
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();

@@ -18,7 +18,7 @@ namespace HotelListingAPI.Repository
             _db = _context.Set<T>();
         }
 
-        public async Task Delete(int id)
+        public async Task DeleteAsync(int id)
         {
             var entity = await _db.FindAsync(id);
             _db.Remove(entity);
@@ -65,12 +65,12 @@ namespace HotelListingAPI.Repository
 
         }
 
-        public async Task Insert(T entity)
+        public async Task InsertAsync(T entity)
         {
             await _db.AddAsync(entity);
         }
 
-        public async Task InsertRange(IEnumerable<T> entities)
+        public async Task InsertRangeAsync(IEnumerable<T> entities)
         {
             await _db.AddRangeAsync(entities);
         }

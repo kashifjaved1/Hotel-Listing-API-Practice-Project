@@ -20,10 +20,10 @@ namespace HotelListingAPI.Repository
             List<string> includes = null
         );
 
-        Task Insert(T entity);
-        Task InsertRange(IEnumerable<T> entities);
+        Task InsertAsync(T entity);
+        Task InsertRangeAsync(IEnumerable<T> entities);
         void Update(T entity);
-        Task Delete(int id);
+        Task DeleteAsync(int id);
         void DeleteRange(IEnumerable<T> entities);
 
     }

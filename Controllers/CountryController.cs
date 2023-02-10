@@ -4,6 +4,7 @@ using HotelListingAPI.Models;
 using HotelListingAPI.UOW;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -31,7 +32,7 @@ namespace HotelListingAPI.Controllers
             try
             {
                 var country = _mapper.Map<Country>(createCountry);
-                await _uow.Countries.Insert(country);
+                await _uow.Countries.InsertAsync(country);
                 await _uow.SaveAsync();
 
                 return CreatedAtRoute("GetCountry", new { id = country.Id }, country);
@@ -47,7 +48,7 @@ namespace HotelListingAPI.Controllers
         [HttpGet("id", Name = "GetCountry")]
         public async Task<IActionResult> GetCountry(int id)
         {
-            if (!ModelState.IsValid) return BadRequest();
+            if (id < 1) return BadRequest();
 
             try
             {
@@ -84,17 +85,17 @@ namespace HotelListingAPI.Controllers
             return BadRequest();
         }
 
-        [HttpPut]
-        public async Task<IActionResult> UpdateCountry(CountryDTO countryDTO)
+        [HttpPut("id")]
+        public async Task<IActionResult> UpdateCountry(int id, [FromBody] UpdateCountryDTO updateCountry)
         {
-            if (!ModelState.IsValid) return BadRequest();
+            if (!ModelState.IsValid || id < 1) return BadRequest();
 
             try
             {
-                var isExist = _uow.Countries.GetAsync(q => q.Id == countryDTO.Id);
-                if (isExist != null)
+                var country = await _uow.Countries.GetAsync(q => q.Id == id);
+                if (country != null)
                 {
-                    var country = _mapper.Map<Country>(isExist);
+                    _mapper.Map(updateCountry, country);
                     _uow.Countries.Update(country);
                     await _uow.SaveAsync();
                 }
@@ -108,4 +109,28 @@ namespace HotelListingAPI.Controllers
 
             return BadRequest();
         }
+
+        [HttpDelete("id")]
+        public async Task<IActionResult> DeleteCountry(int id)
+        {
+            if (id < 1) return BadRequest();
+
+            try
+            {
+                var country = await _uow.Countries.GetAsync(q => q.Id == id);
+                if(country != null)
+                {
+                    await _uow.Countries.DeleteAsync(id);
+                    await _uow.SaveAsync();
+                    return RedirectToAction("GetAllCountries");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+            return BadRequest();
+        }
     }
+}
