@@ -98,6 +98,8 @@ namespace HotelListingAPI
             services.Configure<RouteOptions>(opt => opt.LowercaseUrls = true);
 
             services.ConfigureJWT(Configuration);
+
+            services.ConfigureVersioning();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
