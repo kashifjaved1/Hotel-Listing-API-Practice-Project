@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Data.SqlTypes;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace HotelListingAPI.Controllers
@@ -26,6 +27,8 @@ namespace HotelListingAPI.Controllers
             _authManager = authManager;
         }
 
+        [HttpPost]
+        [Route("Register")]
         public async Task<IActionResult> Register([FromBody] UserDTO userDTO)
         {
             if (!ModelState.IsValid) return BadRequest();
@@ -34,7 +37,15 @@ namespace HotelListingAPI.Controllers
             {
                 var user = _mapper.Map<ApiUser>(userDTO);
                 user.UserName = userDTO.FullName;
-                var result = await _userManager.CreateAsync(user);
+                var result = await _userManager.CreateAsync(user, userDTO.Password);
+
+                if (!result.Succeeded)
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(error.Code, error.Description);
+                    }
+                }
                 await _userManager.AddToRolesAsync(user, userDTO.Roles);
                 return Accepted();
             }
@@ -44,6 +55,8 @@ namespace HotelListingAPI.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("Login")]
         public async Task<IActionResult> Login([FromBody] LoginUserDTO loginUserDTO)
         {
             if (!ModelState.IsValid) return BadRequest();

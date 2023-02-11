@@ -2,6 +2,7 @@
 using HotelListingAPI.Data;
 using HotelListingAPI.Models;
 using HotelListingAPI.UOW;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.DataAnnotations;
@@ -24,6 +25,7 @@ namespace HotelListingAPI.Controllers
             _mapper = mapper;
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateCountry([FromBody] CreateCountryDTO createCountry)
         {
@@ -45,7 +47,7 @@ namespace HotelListingAPI.Controllers
             return BadRequest();
         }
 
-        [HttpGet("id", Name = "GetCountry")]
+        [HttpGet("{id}", Name = "GetCountry")]
         public async Task<IActionResult> GetCountry(int id)
         {
             if (id < 1) return BadRequest();
@@ -85,7 +87,8 @@ namespace HotelListingAPI.Controllers
             return BadRequest();
         }
 
-        [HttpPut("id")]
+        [Authorize(Roles = "Admin")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> UpdateCountry(int id, [FromBody] UpdateCountryDTO updateCountry)
         {
             if (!ModelState.IsValid || id < 1) return BadRequest();
@@ -93,13 +96,14 @@ namespace HotelListingAPI.Controllers
             try
             {
                 var country = await _uow.Countries.GetAsync(q => q.Id == id);
-                if (country != null)
+                if (country == null)
                 {
-                    _mapper.Map(updateCountry, country);
-                    _uow.Countries.Update(country);
-                    await _uow.SaveAsync();
+                    return BadRequest();
                 }
 
+                _mapper.Map(updateCountry, country);
+                _uow.Countries.Update(country);
+                await _uow.SaveAsync();
                 return NoContent();
             }
             catch (Exception ex)
@@ -110,19 +114,20 @@ namespace HotelListingAPI.Controllers
             return BadRequest();
         }
 
-        [HttpDelete("id")]
+        [Authorize(Roles = "Admin")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCountry(int id)
         {
             if (id < 1) return BadRequest();
 
             try
             {
-                var country = await _uow.Countries.GetAsync(q => q.Id == id);
+                var country = await _uow.Countries.GetAsync(q => q.Id == id); 
                 if(country != null)
                 {
                     await _uow.Countries.DeleteAsync(id);
                     await _uow.SaveAsync();
-                    return RedirectToAction("GetAllCountries");
+                    return Ok("Record Deleted Successfully");
                 }
             }
             catch (Exception ex)

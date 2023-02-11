@@ -2,6 +2,7 @@
 using HotelListingAPI.Data;
 using HotelListingAPI.Models;
 using HotelListingAPI.UOW;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -37,7 +38,7 @@ namespace HotelListingAPI.Controllers
             return BadRequest();
         }
 
-        [HttpPost("id")]
+        [HttpPost("{id}")]
         public async Task<IActionResult> GetHotel(int id)
         {
             if (id < 1) return BadRequest();
@@ -59,6 +60,7 @@ namespace HotelListingAPI.Controllers
             return BadRequest();
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateHotel([FromBody] CreateHotelDTO createHotelDTO)
         {
@@ -79,7 +81,8 @@ namespace HotelListingAPI.Controllers
             return BadRequest();
         }
 
-        [HttpDelete("id")]
+        [Authorize(Roles = "Admin")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteHotel(int id)
         {
             if(id < 1) return BadRequest();
@@ -90,7 +93,8 @@ namespace HotelListingAPI.Controllers
                 if(hotel != null)
                 {
                     await _uow.Hotels.DeleteAsync(id);
-                    return RedirectToAction("GetAllHotels");
+                    await _uow.SaveAsync();
+                    return Ok("Record Deleted Successfully");
                 }
 
                 return BadRequest();
@@ -101,7 +105,8 @@ namespace HotelListingAPI.Controllers
             }
         }
 
-        [HttpPut("id")] 
+        [Authorize(Roles = "Admin")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> UpdateHotel(int id, [FromBody] UpdateHotelDTO updateHotelDTO)
         {
             if (!ModelState.IsValid) return BadRequest();

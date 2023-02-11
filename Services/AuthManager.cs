@@ -54,8 +54,9 @@ namespace HotelListingAPI.Services
         {
             var expiry = DateTime.Now.AddDays(1);
             var issuer = _configuration["JWT:Issuer"];
+            var audiance = _configuration["JWT:Audiance"];
             var token = new JwtSecurityToken(
-                issuer, claims: claims, expires: expiry, signingCredentials: signingCredentials
+                issuer, audiance, claims, expires: expiry, signingCredentials: signingCredentials
             );
 
             return token;
