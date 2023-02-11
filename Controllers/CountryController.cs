@@ -87,6 +87,26 @@ namespace HotelListingAPI.Controllers
             return BadRequest();
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetCountriesPagedList([FromQuery] RequestParams requestParams)
+        {
+            if(!ModelState.IsValid) return BadRequest();
+
+            try
+            {
+                var countries = await _uow.Countries.GetPagedListAsync(requestParams);
+                var result = _mapper.Map<List<Country>>(countries);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(ex.Source, ex.Message);
+            }
+
+            return BadRequest();
+        }
+
         [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateCountry(int id, [FromBody] UpdateCountryDTO updateCountry)

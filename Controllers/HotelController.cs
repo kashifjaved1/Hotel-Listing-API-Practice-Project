@@ -38,6 +38,21 @@ namespace HotelListingAPI.Controllers
             return BadRequest();
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetHotelsPagedList([FromQuery] RequestParams requestParams)
+        {
+            if(!ModelState.IsValid) return BadRequest();
+
+            var hotels = await _uow.Hotels.GetPagedListAsync(requestParams);
+            if (hotels != null)
+            {
+                _mapper.Map<List<Hotel>>(hotels);
+                return Ok(hotels);
+            }
+
+            return BadRequest();
+        }
+
         [HttpPost("{id}")]
         public async Task<IActionResult> GetHotel(int id)
         {
