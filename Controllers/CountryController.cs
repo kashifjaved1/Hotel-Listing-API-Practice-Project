@@ -50,20 +50,16 @@ namespace HotelListingAPI.Controllers
         [HttpGet("{id}", Name = "GetCountry")]
         public async Task<IActionResult> GetCountry(int id)
         {
+            //throw new Exception(); // did to test global error handler
+
+            // removed manual try-catch block because now global error handling is applied.
             if (id < 1) return BadRequest();
 
-            try
+            var country = await _uow.Countries.GetAsync(q => q.Id == id, new List<string> { "Hotels" });
+            if (country != null)
             {
-                var country = await _uow.Countries.GetAsync(q => q.Id == id, new List<string> { "Hotels" });
-                if (country != null)
-                {
-                    var result = _mapper.Map<Country>(country);
-                    return Ok(result);
-                }
-            }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError(ex.Source, ex.Message);
+                var result = _mapper.Map<Country>(country);
+                return Ok(result);
             }
 
             return BadRequest();
