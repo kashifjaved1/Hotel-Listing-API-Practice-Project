@@ -2,6 +2,7 @@
 using HotelListingAPI.Data;
 using HotelListingAPI.Models;
 using HotelListingAPI.UOW;
+using Marvin.Cache.Headers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -48,6 +49,10 @@ namespace HotelListingAPI.Controllers
         }
 
         [HttpGet("{id}", Name = "GetCountry")]
+        //[ResponseCache(Duration = 60)] // set controllerAction level cache with duration/max-age of 60 seconds.
+        // overriding global cache handler setting for actionMethod explicitly.
+        [HttpCacheExpiration(CacheLocation = CacheLocation.Public, MaxAge = 60)]
+        [HttpCacheValidation(MustRevalidate = false)]
         public async Task<IActionResult> GetCountry(int id)
         {
             //throw new Exception(); // did to test global error handler

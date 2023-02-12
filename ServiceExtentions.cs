@@ -1,5 +1,6 @@
 ﻿using HotelListingAPI.Data;
 using HotelListingAPI.Models;
+using Marvin.Cache.Headers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
@@ -88,6 +89,23 @@ namespace HotelListingAPI
                 options.DefaultApiVersion = new ApiVersion(1, 0);
                 options.ApiVersionReader = new HeaderApiVersionReader("api-version"); // enables the client to access api just adding new 'api-version' header.
             });
+        }
+
+        public static void ConfigureHttpCacheHeaders(this IServiceCollection services)
+        {
+            services.AddResponseCaching();
+            services.AddHttpCacheHeaders(
+                expiryOption =>
+                {
+                    expiryOption.MaxAge = 120;
+                    expiryOption.CacheLocation = CacheLocation.Private;
+                },
+                valideOption =>
+                {   // make sure that if data is updated in db then client will get fresh data from db instead
+                    // of cache.
+                    valideOption.MustRevalidate = true;
+                }
+            );
         }
     }
 }

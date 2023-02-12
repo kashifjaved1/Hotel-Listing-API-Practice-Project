@@ -41,6 +41,12 @@ namespace HotelListingAPI
                 .AllowAnyHeader());
             });
 
+            // configuring app to use caching.
+            //services.AddResponseCaching();
+
+            // configuring global cache handling
+            services.ConfigureHttpCacheHeaders();
+
             // handling object cycle detection.
             services.AddControllersWithViews()
                 .AddNewtonsoftJson(options =>
@@ -115,6 +121,9 @@ namespace HotelListingAPI
             app.UseHttpsRedirection();
 
             app.UseCors("AllowAll");
+
+            app.UseResponseCaching();
+            app.UseHttpCacheHeaders();
 
             app.UseRouting();
 
