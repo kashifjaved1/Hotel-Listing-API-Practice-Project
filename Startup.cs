@@ -18,6 +18,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using HotelListingAPI.Services;
+using AspNetCoreRateLimit;
 
 namespace HotelListingAPI
 {
@@ -43,6 +44,11 @@ namespace HotelListingAPI
 
             // configuring app to use caching.
             //services.AddResponseCaching();
+
+            //configuring rate limiting
+            services.AddMemoryCache(); // store and keep track of who requested what and how many times in mean time.
+            services.ConfigureRateLimiting();
+            services.AddHttpContextAccessor();
 
             // configuring global cache handling
             services.ConfigureHttpCacheHeaders();
@@ -124,6 +130,7 @@ namespace HotelListingAPI
 
             app.UseResponseCaching();
             app.UseHttpCacheHeaders();
+            app.UseIpRateLimiting();
 
             app.UseRouting();
 
