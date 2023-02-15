@@ -7,13 +7,15 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.DataAnnotations;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace HotelListingAPI.Controllers
 {
-    [Route("api/[controller]")]
+    //[Route("api/[controller]")]
+    [Route("api/[controller]/[action]")] // To resolve "Actions require unique method/path combination for Swagger".
     [ApiController]
     public class CountryController : ControllerBase
     {
@@ -60,7 +62,8 @@ namespace HotelListingAPI.Controllers
             // removed manual try-catch block because now global error handling is applied.
             if (id < 1) return BadRequest();
 
-            var country = await _uow.Countries.GetAsync(q => q.Id == id, new List<string> { "Hotels" });
+            //var country = await _uow.Countries.GetAsync(q => q.Id == id, new List<string> { "Hotels" });
+            var country = await _uow.Countries.GetAsync(q => q.Id == id, include: q => q.Include(x => x.Hotels));
             if (country != null)
             {
                 var result = _mapper.Map<Country>(country);

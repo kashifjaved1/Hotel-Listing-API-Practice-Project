@@ -12,7 +12,8 @@ using System.Threading.Tasks;
 
 namespace HotelListingAPI.Controllers
 {
-    [Route("api/[controller]")]
+    //[Route("api/[controller]")]
+    [Route("api/[controller]/[action]")] // To resolve "Actions require unique method/path combination for Swagger".
     [ApiController]
     public class HotelController : ControllerBase
     {
@@ -60,7 +61,7 @@ namespace HotelListingAPI.Controllers
 
             try
             {
-                var hotel = await _uow.Hotels.GetAsync(q => q.Id == id);
+                var hotel = await _uow.Hotels.GetAsync(q => q.Id == id, include: q => q.Include(x => x.Country));
                 if (hotel != null)
                 {
                     _mapper.Map<Hotel>(hotel);

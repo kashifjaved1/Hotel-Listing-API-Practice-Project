@@ -105,6 +105,8 @@ namespace HotelListingAPI
             services.AddScoped<IAuthManager, AuthManager>();
             services.AddAutoMapper(typeof(MapperInitializer));
 
+            // To fix "Unable to resolve service for type 'AspNetCoreRateLimit.IProcessingStrategy' while attempting to activate 'AspNetCoreRateLimit.IpRateLimitMiddleware'.", use following:
+            services.AddSingleton<IProcessingStrategy, AsyncKeyLockProcessingStrategy>();
 
             // forcing urls to be lowercase.
             services.Configure<RouteOptions>(opt => opt.LowercaseUrls = true);

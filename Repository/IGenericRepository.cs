@@ -1,4 +1,5 @@
 ﻿using HotelListingAPI.Models;
+using Microsoft.EntityFrameworkCore.Query;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,17 +15,20 @@ namespace HotelListingAPI.Repository
         Task<IList<T>> GetAllAsync(
             Expression<Func<T, bool>> expression = null,
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
-            List<string> includes = null
+            //List<string> includes = null
+            Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null
         );
 
         Task<IPagedList<T>> GetPagedListAsync(
             RequestParams requestParams,
-            List<string> includes = null
+            //List<string> includes = null
+            Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null
         );
 
         Task<T> GetAsync(
             Expression<Func<T, bool>> expression,
-            List<string> includes = null
+            //List<string> includes = null
+            Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null
         );
 
         Task InsertAsync(T entity);
