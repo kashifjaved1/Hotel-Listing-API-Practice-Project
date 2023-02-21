@@ -1,5 +1,5 @@
 ﻿using AspNetCoreRateLimit;
-using HotelListingAPI.Data;
+using HotelListingAPI.DAL;
 using HotelListingAPI.Models;
 using Marvin.Cache.Headers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -13,9 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
-using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace HotelListingAPI

@@ -1,13 +1,10 @@
 ﻿using AutoMapper;
-using HotelListingAPI.Data;
+using HotelListingAPI.DAL;
 using HotelListingAPI.Models;
 using HotelListingAPI.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Data.SqlTypes;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace HotelListingAPI.Controllers

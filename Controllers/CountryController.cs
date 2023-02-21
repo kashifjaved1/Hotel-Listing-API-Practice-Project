@@ -1,12 +1,10 @@
 ﻿using AutoMapper;
-using HotelListingAPI.Data;
+using HotelListingAPI.DAL;
 using HotelListingAPI.Models;
 using HotelListingAPI.UOW;
 using Marvin.Cache.Headers;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

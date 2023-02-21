@@ -1,24 +1,17 @@
-using HotelListingAPI.Configurations;
-using HotelListingAPI.Data;
 using HotelListingAPI.UOW;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 using HotelListingAPI.Services;
 using AspNetCoreRateLimit;
+using HotelListingAPI.DAL;
+using HotelListingAPI.BLL;
 
 namespace HotelListingAPI
 {
