@@ -1,0 +1,12 @@
+C:\Users\MKashifJaved\Desktop\HotelListingAPI.BO\bin\Debug\net5.0\HotelListingAPI.BO.deps.json
+C:\Users\MKashifJaved\Desktop\HotelListingAPI.BO\bin\Debug\net5.0\HotelListingAPI.BO.dll
+C:\Users\MKashifJaved\Desktop\HotelListingAPI.BO\bin\Debug\net5.0\HotelListingAPI.BO.pdb
+C:\Users\MKashifJaved\Desktop\HotelListingAPI.BO\obj\Debug\net5.0\HotelListingAPI.BO.csproj.AssemblyReference.cache
+C:\Users\MKashifJaved\Desktop\HotelListingAPI.BO\obj\Debug\net5.0\HotelListingAPI.BO.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\MKashifJaved\Desktop\HotelListingAPI.BO\obj\Debug\net5.0\HotelListingAPI.BO.AssemblyInfoInputs.cache
+C:\Users\MKashifJaved\Desktop\HotelListingAPI.BO\obj\Debug\net5.0\HotelListingAPI.BO.AssemblyInfo.cs
+C:\Users\MKashifJaved\Desktop\HotelListingAPI.BO\obj\Debug\net5.0\HotelListingAPI.BO.csproj.CoreCompileInputs.cache
+C:\Users\MKashifJaved\Desktop\HotelListingAPI.BO\obj\Debug\net5.0\HotelListingAPI.BO.dll
+C:\Users\MKashifJaved\Desktop\HotelListingAPI.BO\obj\Debug\net5.0\refint\HotelListingAPI.BO.dll
+C:\Users\MKashifJaved\Desktop\HotelListingAPI.BO\obj\Debug\net5.0\HotelListingAPI.BO.pdb
+C:\Users\MKashifJaved\Desktop\HotelListingAPI.BO\obj\Debug\net5.0\ref\HotelListingAPI.BO.dll
